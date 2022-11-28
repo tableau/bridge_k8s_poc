@@ -1,0 +1,36 @@
+# An example of ClusterConfig with a normal nodegroup and a Fargate profile.
+---
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+metadata:
+  name: $CLUSTER
+  region: $REGION
+iam:
+  serviceRoleARN: $service_role_arn
+  fargatePodExecutionRoleARN: $fargate_pod_execution_role_arn
+  withOIDC: true
+  serviceAccounts:	
+    - metadata:	
+        name: bridgesa
+        namespace: tableau
+      attachPolicyARNs:	
+      - $BRIDGE_DEPLOYMENT_POLICY_ARN
+      roleName: bridgesa
+
+vpc:
+  id: $vpc_id
+  securityGroup: $sg_id
+  subnets:
+    private:
+      us-west2a: { id: $private_subnet1 }
+      us-west2b: { id: $private_subnet2 }
+
+fargateProfiles:
+  - name: fp-default
+    selectors:
+      # All workloads in the "default" Kubernetes namespace will be
+      # scheduled onto Fargate:
+      - namespace: default
+      - namespace: kube-system
+      - namespace: external-secrets
+      - namespace: tableau 

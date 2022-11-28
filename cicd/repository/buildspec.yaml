@@ -1,0 +1,17 @@
+version: 0.2
+env:
+  variables:
+    TABLEAU_BRIDGE_RPM_URL: https://github.com/tableau/bridge_docker_build/releases/download/v10/tableau-bridge-near.22.1117.1328.x86_64.rpm
+    TABLEAU_BRIDGE_SRC_URL: https://github.com/tableau/bridge_docker_build/archive/refs/tags/v10.tar.gz
+    # container_image_builder variables
+    DRIVERS: amazon_redshift
+    OS_TYPE: rhel7
+    SOURCE_REPO: public.ecr.aws/docker/library/centos
+    IMAGE_TAG: 7.9.2009
+phases:
+  build:
+    commands:
+      - set -o errexit; set -o nounset; set -o xtrace; 
+      - find . -name '*.sh' -type f -exec chmod 0755 '{}' ';'
+      - ./build.sh
+

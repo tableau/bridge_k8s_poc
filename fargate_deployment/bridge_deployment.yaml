@@ -1,0 +1,49 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: site1pool1bridge1
+  namespace: tableau
+  labels:
+    app: site1pool1bridge1
+spec:
+  clusterIP: None
+  selector:
+    app: site1pool1bridge1
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: site1pool1bridge1
+  namespace: tableau
+spec:
+  serviceName: "site1pool1bridge1"
+  replicas: 3
+  selector:
+    matchLabels:
+      app: site1pool1bridge1
+  template:
+    metadata:
+      labels:
+        app: site1pool1bridge1
+    spec:
+      containers:
+        - env:
+            - name: SITE
+              value: "chandreshsandbox4"
+            - name: USEREMAIL
+              value: "chandresh.patel@tableau.com"
+            - name: SERVERPOD
+              value: "https://prod-useast-a.online.tableau.com/"
+          image: 010465704656.dkr.ecr.us-west-2.amazonaws.com/bridge:v1
+          name: site1pool1bridge1
+          volumeMounts:
+            - name: secret
+              mountPath: "/etc/secret"
+          resources: {}
+          imagePullPolicy: IfNotPresent
+      volumes:
+        - name: secret
+          secret:
+            secretName: bridgesecret
+            optional: false
+  
