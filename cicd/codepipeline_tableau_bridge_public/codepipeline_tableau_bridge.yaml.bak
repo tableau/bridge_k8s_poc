@@ -12,7 +12,7 @@ Parameters:
   S3Bucket:
     Description: CodeCommit S3 bucket containing the initial source code
     Type: String
-    Default: tableau-app-services-cp
+    Default: tableau-app-services
   S3Key:
     Description: CodeCommit S3 key zip file containing the initial source code
     Type: String

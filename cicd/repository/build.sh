@@ -13,7 +13,7 @@ ECR_IMAGE_TAG=$(echo "$TABLEAU_BRIDGE_RPM-$CODEBUILD_BUILD_NUMBER" | sed -e 's/t
 curl --location --output ./$TABLEAU_BRIDGE_SRC "$TABLEAU_BRIDGE_SRC_URL"
 tar -xvf $TABLEAU_BRIDGE_SRC
 # modify it to get the below value from the $TABLEAU_BRIDGE_RPM_URL
-mv bridge-test*/* .
+mv bridge_docker_build*/* .
 chmod 755 ./build/build.sh
 
 # download tableau bridge
