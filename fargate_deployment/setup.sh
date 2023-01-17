@@ -153,9 +153,12 @@ else
 
     sleep 50
 
-    echo "bridge_deployment started"
+    kubectl apply -f fluent-bit-bridge-configmap.yaml
+    
+    #Bridge container deployment is done via CI/CD pipeline
+    #echo "bridge_deployment started"
 
-    kubectl apply -f bridge_deployment.yaml
+    #kubectl apply -f bridge_deployment.yaml
     
     exit 1
 fi
