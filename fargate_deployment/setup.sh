@@ -153,7 +153,9 @@ else
 
     sleep 50
 
-    kubectl apply -f fluent-bit-bridge-configmap.yaml
+    cp fluent-bit-bridge-configmap.yaml fluent-bit-bridge-configmap_new.yaml
+    sed -i.bak -e "s|\$CLUSTER|$CLUSTER|" "fluent-bit-bridge-configmap_new.yaml"
+    kubectl apply -f fluent-bit-bridge-configmap_new.yaml
     
     #Bridge container deployment is done via CI/CD pipeline
     #echo "bridge_deployment started"
