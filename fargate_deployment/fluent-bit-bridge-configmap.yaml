@@ -1,0 +1,75 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: fluent-bit-role
+rules:
+  - nonResourceURLs:
+      - /metrics
+    verbs:
+      - get
+  - apiGroups: [""]
+    resources:
+      - namespaces
+      - pods
+      - pods/logs
+      - nodes
+      - nodes/proxy
+    verbs: ["get", "list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: fluent-bit-role-binding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: fluent-bit-role
+subjects:
+  - kind: ServiceAccount
+    name: bridgesa
+    namespace: tableau
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fluent-bit-bridge-config
+  namespace: tableau
+  labels:
+    k8s-app: fluent-bit
+data:
+  fluent-bit.conf: |
+    [SERVICE]
+        Flush                     5
+        Log_Level                 info
+        Daemon                    off
+        Parsers_File              parsers.conf
+        HTTP_Server               On
+        HTTP_Listen               0.0.0.0
+        HTTP_Port                 2020
+        
+    @INCLUDE application-log.conf
+  
+  application-log.conf: |
+    [INPUT]
+        Name                tail
+        Path                /root/Documents/My_Tableau_Bridge_Repository_Beta/Logs/*.log
+        
+    [OUTPUT]
+        Name                stdout
+        Match               *
+    
+    [OUTPUT]
+        Name                cloudwatch_logs
+        Match               *
+        region              us-west-2
+        log_group_name      /aws/containerinsights/$CLUSTER/application
+        log_stream_prefix   bridge-log-
+        auto_create_group   true
+        extra_user_agent    container-insights
+        
+  parsers.conf: |
+    [PARSER]
+        Name                docker
+        Format              json
+        Time_Key            time
+        Time_Format         %Y-%m-%dT%H:%M:%S.%LZ
