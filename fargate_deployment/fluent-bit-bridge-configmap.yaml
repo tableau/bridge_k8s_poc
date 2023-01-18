@@ -53,15 +53,11 @@ data:
     [INPUT]
         Name                tail
         Path                /root/Documents/My_Tableau_Bridge_Repository_Beta/Logs/*.log
-        
-    [OUTPUT]
-        Name                stdout
-        Match               *
     
     [OUTPUT]
         Name                cloudwatch_logs
         Match               *
-        region              us-west-2
+        region              $REGION
         log_group_name      /aws/containerinsights/$CLUSTER/application
         log_stream_prefix   bridge-log-
         auto_create_group   true
