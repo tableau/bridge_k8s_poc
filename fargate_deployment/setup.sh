@@ -155,6 +155,7 @@ else
 
     cp fluent-bit-bridge-configmap.yaml fluent-bit-bridge-configmap_new.yaml
     sed -i.bak -e "s|\$CLUSTER|$CLUSTER|" "fluent-bit-bridge-configmap_new.yaml"
+    sed -i.bak -e "s|\$REGION|$REGION|" "fluent-bit-bridge-configmap_new.yaml"
     kubectl apply -f fluent-bit-bridge-configmap_new.yaml
     
     #Bridge container deployment is done via CI/CD pipeline
