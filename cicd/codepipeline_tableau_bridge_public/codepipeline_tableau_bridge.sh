@@ -9,7 +9,7 @@ sed -i.bak "s|\$AWS_ACCOUNT_ID|$AWS_ACCOUNT_ID|" codepipeline_tableau_bridge.yam
 sed -i.bak "s|\$AWS_ORGANIZATION_ID|$AWS_ORGANIZATION_ID|" codepipeline_tableau_bridge.yaml
 
 aws cloudformation create-stack \
-    --stack-name cicd1 \
+    --stack-name cicd \
     --template-body file://"codepipeline_tableau_bridge.yaml" \
     --parameters ParameterKey=SecurityGroupIds,ParameterValue=sg-0cb844360303ffabd \
                  ParameterKey=Subnets,ParameterValue=subnet-067a0adb670ee49c8 \
