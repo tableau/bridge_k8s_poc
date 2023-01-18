@@ -58,8 +58,8 @@ data:
         Name                cloudwatch_logs
         Match               *
         region              $REGION
-        log_group_name      /aws/containerinsights/$CLUSTER/application
-        log_stream_prefix   bridge-log-
+        log_group_name      /eks_fargate/$CLUSTER/${POD_NAMESPACE}
+        log_stream_name     ${POD_NAME}
         auto_create_group   true
         extra_user_agent    container-insights
         
