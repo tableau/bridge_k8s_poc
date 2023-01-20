@@ -2,9 +2,13 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - ../base/pat_client
+  - ../base/tableau_bridge
 patches:
   - path: pat_client.yaml
     target:
       kind: CronJob
-      labelSelector: app.kubernetes.io/name=pat_client
-
+      labelSelector: app=pat_client
+  - path: tableau_bridge.yaml
+    target:
+      kind: StatefulSet
+      labelSelector: app=tableau_bridge

@@ -8,17 +8,12 @@ spec:
       template:
         spec:
           containers:
-          - name: pat-client
-            image: 010465704656.dkr.ecr.us-west-2.amazonaws.com/pat_client:0.1.0
-            env:
-              - name: LOGLEVEL
-                value: INFO
-              - name: SERVERPOD
-                value: https://my-region.online.tableau.com
-              - name: SITE
-                value: my-site
-          volumes:
-            - name: secret
-              secret:
-                secretName: pat-client-d7hkc4k2gm
-                optional: false
+            - env:
+                - name: LOGLEVEL
+                  value: INFO
+                - name: SERVERPOD
+                  value: "https://prod-useast-a.online.tableau.com/"
+                - name: SITE
+                  value: "chandreshsandbox4"
+              image: 010465704656.dkr.ecr.us-west-2.amazonaws.com/pat_client:0.1.0-2
+              name: pat-client

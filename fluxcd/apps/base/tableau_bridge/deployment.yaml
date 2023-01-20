@@ -1,0 +1,83 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: site1pool1bridge1
+  labels:
+    app: site1pool1bridge1
+spec:
+  clusterIP: None
+  selector:
+    app: site1pool1bridge1
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: site1pool1bridge1
+  labels:
+    app: site1pool1bridge1
+spec:
+  serviceName: "site1pool1bridge1"
+  replicas: 1
+  updateStrategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: site1pool1bridge1
+  template:
+    metadata:
+      labels:
+        app: site1pool1bridge1
+    spec:
+      serviceAccountName: bridgesa
+      containers:
+        - env:
+            - name: SITE
+              value: "changeme"
+            - name: USEREMAIL
+              value: "changeme"
+            - name: SERVERPOD
+              value: "changeme"
+          image: changeme
+          name: site1pool1bridge1
+          volumeMounts:
+            - name: secret
+              mountPath: "/etc/secret"
+            - name: varlog
+              mountPath: /root/Documents/My_Tableau_Bridge_Repository_Beta/Logs
+        - name: fluent-bit
+          image: amazon/aws-for-fluent-bit:2.14.0
+          env:
+              - name: HOST_NAME
+                valueFrom:
+                  fieldRef:
+                    fieldPath: spec.nodeName
+              - name: POD_NAME
+                valueFrom:
+                  fieldRef:
+                    fieldPath: metadata.name
+              - name: POD_NAMESPACE
+                valueFrom:
+                  fieldRef:
+                    fieldPath: metadata.namespace
+          resources:
+              limits:
+                memory: 200Mi
+              requests:
+                cpu: 200m
+                memory: 100Mi
+          volumeMounts:
+            - name: fluent-bit-bridge-config
+              mountPath: /fluent-bit/etc/
+            - name: varlog
+              mountPath: /root/Documents/My_Tableau_Bridge_Repository_Beta/Logs
+              readOnly: true
+      volumes:
+        - name: secret
+          secret:
+            secretName: bridgesecret
+            optional: false
+        - name: fluent-bit-bridge-config
+          configMap:
+            name: fluent-bit-bridge-config
+        - name: varlog
+          emptyDir: {}

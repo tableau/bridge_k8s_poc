@@ -3,7 +3,7 @@ kind: CronJob
 metadata:
   name: pat-client
   labels:
-    app.kubernetes.io/name: pat_client
+    app: pat_client
 spec:
   concurrencyPolicy: Forbid
   schedule: "0 0 * * *"
@@ -11,13 +11,18 @@ spec:
   jobTemplate:
     spec:
       template:
+        metadata:
+          labels:
+            app: pat_client
         spec:
           containers:
             - name: pat-client
-              imagePullPolicy: IfNotPresent
-              command:
-                - ./pat_client
               volumeMounts:
                 - name: secret
                   mountPath: "/app/secret"
           restartPolicy: OnFailure
+          volumes:
+            - name: secret
+              secret:
+                secretName: bridgesecret
+                optional: false

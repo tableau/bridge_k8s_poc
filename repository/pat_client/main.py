@@ -1,5 +1,3 @@
-import urllib.request
-
 import dotenv
 import json
 import logging
@@ -19,7 +17,6 @@ def use_token(url, site_name, token_name, token_value):
             }
         }
     }
-    urllib.request.urlopen()
     r = requests.post(f"{url}/api/3.18/auth/signin", json=body)
     status_text = f"{r.status_code} {responses[r.status_code]}"
     if r.status_code != 200:
@@ -35,7 +32,7 @@ def main():
         level=os.getenv("LOGLEVEL", "WARNING"))
     url = os.getenv("SERVERPOD")
     site_name = os.getenv("SITE")
-    with open("secret/pat.json") as f:
+    with open("secret/pat") as f:
         d: dict = json.load(f)
     logging.info({
         "url": url,
