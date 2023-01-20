@@ -1,10 +1,9 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: CodeCommit, CodeBild, CodePipeline objects to build Tableau containers
+Description: CodeCommit, CodeBuild, CodePipeline objects to build Tableau containers
 Parameters:
   RepositoryName:
     Description: CodeCommit repository name
     Type: String
-    Default: tableau_bridge
   BranchName:
     Description: CodeCommit branch name
     Type: String
@@ -16,7 +15,7 @@ Parameters:
   S3Key:
     Description: CodeCommit S3 key zip file containing the initial source code
     Type: String
-    Default: tableau_bridge/repository.zip
+    Default: codepipeline/repository.zip
   VpcId:
     Description: CodeBuild VPC
     Type: AWS::EC2::VPC::Id
@@ -36,7 +35,7 @@ Resources:
           Bucket: !Ref S3Bucket
           Key: !Ref S3Key
       RepositoryName: !Ref RepositoryName
-      RepositoryDescription: Build and publish Tableau Bridge containers
+      RepositoryDescription: Build and publish Tableau containers
   ContainerRepository:
     Type: AWS::ECR::Repository
     Properties:
@@ -84,7 +83,7 @@ Resources:
               "Sid": "AllowPushPull",
               "Effect": "Allow",
               "Principal": {
-                "AWS": "010465704656"
+                "AWS": "$AWS_ACCOUNT_ID"
               },
               "Action": "*"
             },
@@ -359,43 +358,6 @@ Resources:
                   - appconfig:GetDeployment
                 Resource: "*"
       RoleName: !Sub AWSCodePipelineServiceRole-${AWS::Region}-${RepositoryName}
-  CodePipelineArtifactStoreBucket:
-    Type: 'AWS::S3::Bucket'
-    Properties:
-      BucketName: !Sub codepipeline-${AWS::Region}-${AWS::AccountId}
-  CodePipelineArtifactStoreBucketPolicy:
-    Type: 'AWS::S3::BucketPolicy'
-    Properties:
-      Bucket: !Ref CodePipelineArtifactStoreBucket
-      PolicyDocument:
-        Version: 2012-10-17
-        Statement:
-          - Sid: DenyUnEncryptedObjectUploads
-            Effect: Deny
-            Principal: '*'
-            Action: 's3:PutObject'
-            Resource: !Join
-              - ''
-              - - !GetAtt
-                  - CodePipelineArtifactStoreBucket
-                  - Arn
-                - /*
-            Condition:
-              StringNotEquals:
-                's3:x-amz-server-side-encryption': 'aws:kms'
-          - Sid: DenyInsecureConnections
-            Effect: Deny
-            Principal: '*'
-            Action: 's3:*'
-            Resource: !Join
-              - ''
-              - - !GetAtt
-                  - CodePipelineArtifactStoreBucket
-                  - Arn
-                - /*
-            Condition:
-              Bool:
-                'aws:SecureTransport': false
   CloudWatchEventsRole:
     Type: 'AWS::IAM::Role'
     Properties:
@@ -495,7 +457,7 @@ Resources:
                     },
                     {
                       "name": "AWS_ACCOUNT_ID",
-                      "value": "010465704656",
+                      "value": "$AWS_ACCOUNT_ID",
                       "type": "PLAINTEXT"
                     }
                   ]
@@ -504,4 +466,4 @@ Resources:
               RunOrder: 1
       ArtifactStore:
         Type: S3
-        Location: !Ref CodePipelineArtifactStoreBucket
+        Location: !Sub codepipeline-${AWS::Region}-${AWS::AccountId}
