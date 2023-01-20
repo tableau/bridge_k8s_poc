@@ -9,7 +9,7 @@ sed -i.bak "s|\$AWS_ACCOUNT_ID|$AWS_ACCOUNT_ID|" codepipeline.yaml
 sed -i.bak "s|\$AWS_ORGANIZATION_ID|$AWS_ORGANIZATION_ID|" codepipeline.yaml
 
 # run this section for each service name (e.g. tableau_bridge, pat_client)
-service_name=pat_client
+service_name=tableau_bridge
 aws_service_name=$(sed -r 's/_/-/g' <<< "$service_name")
 aws cloudformation create-stack \
     --stack-name "codepipeline-$aws_service_name" \
