@@ -20,3 +20,7 @@ aws cloudformation create-stack \
                  ParameterKey=VpcId,ParameterValue=vpc-0cef6ccc5c7c8318e \
     --capabilities CAPABILITY_NAMED_IAM \
     --profile saml
+
+# delete generated files
+rm codepipeline.yaml
+rm codepipeline.yaml.bak
