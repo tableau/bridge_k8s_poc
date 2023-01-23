@@ -6,13 +6,13 @@ set -o errexit; set -o nounset; set -o pipefail; set -o xtrace;
 AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text --profile saml)
 AWS_ORGANIZATION_ID=$(aws organizations describe-organization --query Organization.Id --output text --profile saml)
 
-cp template/codepipeline.yaml .
-sed -i.bak "s|\$AWS_ACCOUNT_ID|$AWS_ACCOUNT_ID|" codepipeline.yaml
-sed -i.bak "s|\$AWS_ORGANIZATION_ID|$AWS_ORGANIZATION_ID|" codepipeline.yaml
+cp template/codepipeline.yaml codepipeline_new.yaml
+sed -i.bak "s|\$AWS_ACCOUNT_ID|$AWS_ACCOUNT_ID|" codepipeline_new.yaml
+sed -i.bak "s|\$AWS_ORGANIZATION_ID|$AWS_ORGANIZATION_ID|" codepipeline_new.yaml
 
 aws cloudformation create-stack \
     --stack-name "$(echo "codepipeline-$REPOSITORY_NAME" | sed -r 's/_/-/g')" \
-    --template-body file://codepipeline.yaml \
+    --template-body file://codepipeline_new.yaml \
     --parameters ParameterKey=RepositoryName,ParameterValue="$REPOSITORY_NAME" \
                  ParameterKey=S3Key,ParameterValue="codepipeline/repositories/$REPOSITORY_NAME" \
                  ParameterKey=SecurityGroupIds,ParameterValue=sg-0cb844360303ffabd \

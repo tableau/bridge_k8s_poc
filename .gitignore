@@ -1,2 +1,5 @@
 .DS_Store
 .idea
+*.bak
+*_new.json
+*_new.yaml
