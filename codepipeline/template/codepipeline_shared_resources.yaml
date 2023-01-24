@@ -1,10 +1,24 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Description: CodePipeline shared resources to build Tableau containers
 Resources:
+  RepositoryBucket:
+    Type: 'AWS::S3::Bucket'
+    Properties:
+      BucketName: !Sub tableau-${AWS::Region}-${AWS::AccountId}
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
   CodePipelineArtifactStoreBucket:
     Type: 'AWS::S3::Bucket'
     Properties:
       BucketName: !Sub codepipeline-${AWS::Region}-${AWS::AccountId}
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
   CodePipelineArtifactStoreBucketPolicy:
     Type: 'AWS::S3::BucketPolicy'
     Properties:
