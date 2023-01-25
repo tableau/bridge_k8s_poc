@@ -31,6 +31,7 @@ fargateProfiles:
       # All workloads in the "default" Kubernetes namespace will be
       # scheduled onto Fargate:
       - namespace: default
+      - namespace: flux-system
       - namespace: kube-system
       - namespace: external-secrets
       - namespace: tableau 
