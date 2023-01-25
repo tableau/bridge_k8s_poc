@@ -15,7 +15,7 @@ iam:
         namespace: tableau
       attachPolicyARNs:	
       - $BRIDGE_DEPLOYMENT_POLICY_ARN
-      roleName: bridgesa
+      roleName: bridgesa-$REGION-$CLUSTER
 
 vpc:
   id: $vpc_id
