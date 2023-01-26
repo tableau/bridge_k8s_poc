@@ -1,32 +1,32 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: site1pool1bridge1
+  name: tableau_bridge
   labels:
-    app: site1pool1bridge1
+    app: tableau_bridge
 spec:
   clusterIP: None
   selector:
-    app: site1pool1bridge1
+    app: tableau_bridge
 ---
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: site1pool1bridge1
+  name: tableau_bridge
   labels:
-    app: site1pool1bridge1
+    app: tableau_bridge
 spec:
-  serviceName: "site1pool1bridge1"
+  serviceName: tableau_bridge
   replicas: 1
   updateStrategy:
     type: RollingUpdate
   selector:
     matchLabels:
-      app: site1pool1bridge1
+      app: tableau_bridge
   template:
     metadata:
       labels:
-        app: site1pool1bridge1
+        app: tableau_bridge
     spec:
       serviceAccountName: bridgesa
       containers:
@@ -38,7 +38,7 @@ spec:
             - name: SERVERPOD
               value: "changeme"
           image: changeme
-          name: site1pool1bridge1
+          name: tableau_bridge
           volumeMounts:
             - name: secret
               mountPath: "/etc/secret"
