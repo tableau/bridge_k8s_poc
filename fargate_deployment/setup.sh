@@ -113,6 +113,8 @@ else
     sleep 50
 
     echo "EKS cluster creation completed"
+    
+    kubectl create ns flux-system
 
     aws eks update-kubeconfig --name "$CLUSTER" --region "$REGION" --profile saml
 
