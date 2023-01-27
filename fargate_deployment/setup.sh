@@ -32,8 +32,8 @@ else
 fi
 shift "$((OPTIND-1))"
 
-if [ -z "$Operation" ] || [ -z "$VPC_NAME" ] || [ -z "$CLUSTER" ] || [ -z "$REGION" ]; then
-        echo 'Missing -h or -u or -c or -r' >&2
+if [ -z "$Operation" ] || [ -z "$VPC_NAME" ] || [ -z "$SECRET_ID" ] || [ -z "$CLUSTER" ] || [ -z "$REGION" ]; then
+        echo 'Missing -h or -u or -s or -c or -r' >&2
         help
         exit 1
 fi
