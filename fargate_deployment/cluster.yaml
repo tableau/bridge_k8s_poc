@@ -13,8 +13,17 @@ iam:
     - metadata:	
         name: bridgesa
         namespace: tableau
-      attachPolicyARNs:	
-      - $BRIDGE_DEPLOYMENT_POLICY_ARN
+      attachPolicyARNs:
+        - arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy
+      attachPolicy:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Action:
+              - secretsmanager:GetSecretValue
+              - secretsmanager:DescribeSecret
+            Resource:
+              - $SECRET_ARN
       roleName: bridgesa-$REGION-$CLUSTER
 
 vpc:

@@ -3,7 +3,7 @@ kind: StatefulSet
 metadata:
   name: not-used
 spec:
-  serviceName: tableau_bridge-site1-pool1
+  serviceName: bridge-site2-pool1
   replicas: 1
   template:
     spec:
@@ -15,5 +15,5 @@ spec:
               value: "chandresh.patel@tableau.com"
             - name: SERVERPOD
               value: "https://prod-useast-a.online.tableau.com/"
-          image: 010465704656.dkr.ecr.us-west-2.amazonaws.com/tableau_bridge:near.23.0110.0804-1
-          name: tableau_bridge
+          image: 010465704656.dkr.ecr.us-west-2.amazonaws.com/bridge:near.23.0110.0804-1
+          name: bridge
