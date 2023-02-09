@@ -52,6 +52,7 @@ data:
   application-log.conf: |
     [INPUT]
         Name                tail
+        Parser              bridge
         Path                /root/Documents/My_Tableau_Bridge_Repository_Beta/Logs/*.log
     
     [OUTPUT]
@@ -65,7 +66,7 @@ data:
         
   parsers.conf: |
     [PARSER]
-        Name                docker
+        Name                bridge
         Format              json
-        Time_Key            time
-        Time_Format         %Y-%m-%dT%H:%M:%S.%LZ
+        Time_Key            ts
+        Time_Format         %Y-%m-%dT%H:%M:%S.%L
