@@ -15,13 +15,13 @@ zip -r "$REPOSITORY_NAME.zip" .
 aws s3 cp "$REPOSITORY_NAME.zip" "s3://$S3_BUCKET/$S3_KEY" --profile saml
 popd
 
-cp template/codepipeline.yaml codepipeline_new.yaml
-sed -i.bak "s|\$AWS_ACCOUNT_ID|$AWS_ACCOUNT_ID|" codepipeline_new.yaml
-sed -i.bak "s|\$AWS_ORGANIZATION_ID|$AWS_ORGANIZATION_ID|" codepipeline_new.yaml
+cp template/codepipeline_ci.yaml codepipeline_ci_new.yaml
+sed -i.bak "s|\$AWS_ACCOUNT_ID|$AWS_ACCOUNT_ID|" codepipeline_ci_new.yaml
+sed -i.bak "s|\$AWS_ORGANIZATION_ID|$AWS_ORGANIZATION_ID|" codepipeline_ci_new.yaml
 
 aws cloudformation create-stack \
     --stack-name "$STACK_NAME" \
-    --template-body file://codepipeline_new.yaml \
+    --template-body file://codepipeline_ci_new.yaml \
     --parameters ParameterKey=RepositoryName,ParameterValue="$REPOSITORY_NAME" \
                  ParameterKey=S3Bucket,ParameterValue="$S3_BUCKET" \
                  ParameterKey=S3Key,ParameterValue="$S3_KEY" \

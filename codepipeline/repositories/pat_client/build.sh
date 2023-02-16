@@ -10,3 +10,5 @@ docker build \
 # push image to Elastic Container Registry
 aws ecr get-login-password --region "$AWS_REGION" | docker login --username AWS --password-stdin "$ECR_HOSTNAME"
 docker push "$ECR_HOSTNAME/$ECR_REPO:$ECR_IMAGE_TAG"
+docker tag "$ECR_HOSTNAME/$ECR_REPO:$ECR_IMAGE_TAG" "$ECR_HOSTNAME/$ECR_REPO:latest"
+docker push "$ECR_HOSTNAME/$ECR_REPO:latest"

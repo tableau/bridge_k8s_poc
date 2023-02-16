@@ -15,5 +15,5 @@ spec:
                   value: "https://prod-useast-a.online.tableau.com/"
                 - name: SITE
                   value: "chandreshsandbox4"
-              image: 010465704656.dkr.ecr.us-west-2.amazonaws.com/pat_client:0.1.0-2
+              image: 010465704656.dkr.ecr.us-west-2.amazonaws.com/pat_client:0.1.0-1
               name: pat-client

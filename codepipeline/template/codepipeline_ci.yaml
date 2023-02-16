@@ -33,7 +33,7 @@ Resources:
           Bucket: !Ref S3Bucket
           Key: !Ref S3Key
       RepositoryName: !Ref RepositoryName
-      RepositoryDescription: Build and publish Tableau containers
+      RepositoryDescription: Build and publish containers
   ContainerRepository:
     Type: AWS::ECR::Repository
     Properties:
@@ -206,9 +206,7 @@ Resources:
         PrivilegedMode: true
         Type: LINUX_CONTAINER
       Name: !Ref RepositoryName
-      ServiceRole: !GetAtt
-        - CodeBuildServiceRole
-        - Arn
+      ServiceRole: !GetAtt CodeBuildServiceRole.Arn
       Source:
         Location: !Sub https://git-codecommit.${AWS::Region}.amazonaws.com/v1/repos/${RepositoryName}
         Type: CODECOMMIT
@@ -396,17 +394,13 @@ Resources:
             - !Ref BranchName
       Targets:
         - Arn: !Sub arn:aws:codepipeline:${AWS::Region}:${AWS::AccountId}:${AppPipeline}
-          RoleArn: !GetAtt
-            - CloudWatchEventsRole
-            - Arn
+          RoleArn: !GetAtt CloudWatchEventsRole.Arn
           Id: codepipeline-AppPipeline
   AppPipeline:
     Type: 'AWS::CodePipeline::Pipeline'
     Properties:
       Name: !Ref RepositoryName
-      RoleArn: !GetAtt
-        - CodePipelineServiceRole
-        - Arn
+      RoleArn: !GetAtt CodePipelineServiceRole.Arn
       Stages:
         - Name: Source
           Actions:
