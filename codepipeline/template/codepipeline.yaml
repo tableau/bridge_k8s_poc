@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: CodeCommit, CodeBuild, CodePipeline objects to build Tableau containers
+Description: CodePipeline objects to build containers
 Parameters:
   RepositoryName:
     Description: CodeCommit repository name
@@ -202,7 +202,7 @@ Resources:
         Type: NO_ARTIFACTS
       Environment:
         ComputeType: BUILD_GENERAL1_SMALL
-        Image: aws/codebuild/standard:4.0
+        Image: aws/codebuild/standard:6.0
         PrivilegedMode: true
         Type: LINUX_CONTAINER
       Name: !Ref RepositoryName
