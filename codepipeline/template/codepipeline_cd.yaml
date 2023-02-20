@@ -138,7 +138,6 @@ Resources:
             Principal:
               AWS:
                 - !GetAtt CodeBuildServiceRole.Arn
-                #- !Sub arn:aws:iam::${AWS::AccountId}:role/AWSCodeBuildServiceRole-${AWS::Region}-${RepositoryName}
             Action: 'sts:AssumeRole'
       Description: Policy used in trust relationship with AWSCodeBuildServiceRole
       Policies:
