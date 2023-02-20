@@ -1,0 +1,7 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+commonLabels:
+  app: bridge-site1-pool1
+nameSuffix: -site1-pool1
+resources:
+  - ../bridge

@@ -1,0 +1,10 @@
+version: 0.2
+env:
+  variables:
+    CLUSTER_NAME: $CLUSTER_NAME
+phases:
+  build:
+    commands:
+      - set -o errexit; set -o nounset; set -o xtrace; 
+      - find . -name '*.sh' -type f -exec chmod 0755 '{}' ';'
+      - ./build.sh

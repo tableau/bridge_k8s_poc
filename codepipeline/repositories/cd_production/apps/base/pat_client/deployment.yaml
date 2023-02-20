@@ -1,0 +1,28 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: pat-client
+  labels:
+    app: pat_client
+spec:
+  concurrencyPolicy: Forbid
+  schedule: "0 0 * * *"
+  startingDeadlineSeconds: 600
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app: pat_client
+        spec:
+          containers:
+            - name: pat-client
+              volumeMounts:
+                - name: secret
+                  mountPath: "/app/secret"
+          restartPolicy: OnFailure
+          volumes:
+            - name: secret
+              secret:
+                secretName: bridgesecret
+                optional: false
