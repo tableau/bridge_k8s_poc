@@ -128,6 +128,30 @@ Resources:
                   - s3:GetBucketAcl
                   - s3:GetBucketLocation
       RoleName: !Sub AWSCodeBuildServiceRole-${AWS::Region}-${RepositoryName}
+  CodeBuildEksDescribeRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              AWS:
+                - !GetAtt CodeBuildServiceRole.Arn
+                #- !Sub arn:aws:iam::${AWS::AccountId}:role/AWSCodeBuildServiceRole-${AWS::Region}-${RepositoryName}
+            Action: 'sts:AssumeRole'
+      Description: Policy used in trust relationship with AWSCodeBuildServiceRole
+      Policies:
+        - PolicyName: !Sub CodeBuildEksDescribe-${RepositoryName}-${AWS::Region}
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Resource:
+                  - !Sub arn:aws:eks:${AWS::Region}:${AWS::AccountId}:cluster/*
+                Action:
+                  - eks:DescribeCluster
+      RoleName: !Sub AWSCodeBuildEksDescribeRole-${AWS::Region}-${RepositoryName}
   CodeBuildProject:
     Type: AWS::CodeBuild::Project
     Properties:
