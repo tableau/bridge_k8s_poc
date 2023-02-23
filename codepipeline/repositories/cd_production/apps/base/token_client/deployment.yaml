@@ -1,9 +1,9 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: pat-client
+  name: token-client
   labels:
-    app: pat_client
+    app: token_client
 spec:
   concurrencyPolicy: Forbid
   schedule: "0 0 * * *"
@@ -13,10 +13,10 @@ spec:
       template:
         metadata:
           labels:
-            app: pat_client
+            app: token_client
         spec:
           containers:
-            - name: pat-client
+            - name: token-client
               volumeMounts:
                 - name: secret
                   mountPath: "/app/secret"

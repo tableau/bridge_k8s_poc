@@ -80,12 +80,12 @@ if [ "$Operation" = "delete" ]; then
     aws cloudformation wait stack-delete-complete --stack-name "$VPC_NAME" --profile saml
     exit 1
 else 
-    aws cloudformation create-stack \
-    --stack-name "$VPC_NAME" \
-    --template-body file://"codebuild-vpc-cfn.yaml" \
-    --parameters ParameterKey=EnvironmentName,ParameterValue="$VPC_NAME" \
-    --profile saml
-    aws cloudformation wait stack-create-complete --stack-name "$VPC_NAME" --profile saml
+#    aws cloudformation create-stack \
+#    --stack-name "$VPC_NAME" \
+#    --template-body file://"codebuild-vpc-cfn.yaml" \
+#    --parameters ParameterKey=EnvironmentName,ParameterValue="$VPC_NAME" \
+#    --profile saml
+#    aws cloudformation wait stack-create-complete --stack-name "$VPC_NAME" --profile saml
 
     echo "$VPC_NAME creation completed"
 

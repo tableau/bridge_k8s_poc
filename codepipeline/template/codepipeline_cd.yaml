@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: CodePipeline objects to build containers
+Description: CodePipeline objects to deploy containers
 Parameters:
   RepositoryName:
     Description: CodeCommit repository name
