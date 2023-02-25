@@ -26,6 +26,11 @@ def use_token(url, site_name, token_name, token_value):
 
 
 def main():
+    """
+    Purpose: Validate bridge tokens
+    Steps: Loop through each pat token found in the json file secret/pad and
+    call the Tableau Cloud api method: auth/signin. Results are written to the log.
+    """
     dotenv.load_dotenv("config/.env")
     logging.basicConfig(
         format="%(asctime)s %(levelname)-8s %(module)-10s %(message)s",
