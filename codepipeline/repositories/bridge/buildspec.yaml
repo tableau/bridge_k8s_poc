@@ -1,8 +1,8 @@
 version: 0.2
 env:
   variables:
-    TABLEAU_BRIDGE_RPM_URL: https://github.com/tableau/bridge_docker_build/releases/download/v11/tableau-bridge-near.23.0110.0804.x86_64.rpm
-    TABLEAU_BRIDGE_SRC_URL: https://github.com/tableau/bridge_docker_build/archive/refs/tags/v16.tar.gz
+    TABLEAU_BRIDGE_RPM_URL: https://github.com/tableau/bridge_docker_build/releases/download/v19/tableau-bridge-near.23.0214.1744.x86_64.rpm
+    TABLEAU_BRIDGE_SRC_URL: https://github.com/tableau/bridge_docker_build/archive/refs/tags/v19.tar.gz
     # container_image_builder variables
     DRIVERS: amazon_redshift
     OS_TYPE: rhel7
