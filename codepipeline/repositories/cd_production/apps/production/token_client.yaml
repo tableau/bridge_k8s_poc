@@ -17,3 +17,6 @@ spec:
                   value: "chandreshsandbox4"
               image: 010465704656.dkr.ecr.us-west-2.amazonaws.com/token_client:0.1.0-1
               name: token-client
+              volumeMounts:
+                - name: secret
+                  mountPath: "/app/secret"
