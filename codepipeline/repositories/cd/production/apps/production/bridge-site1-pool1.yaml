@@ -17,5 +17,5 @@ spec:
               value: "https://prod-useast-a.online.tableau.com/"
             - name: POOLID
               value: "098a1d20-fe73-413d-a72d-ef73b61c61d3" 
-          image: 010465704656.dkr.ecr.us-west-2.amazonaws.com/bridge:latest
+          image: 010465704656.dkr.ecr.us-west-2.amazonaws.com/bridge:near.23.0110.0804-1
           name: bridge

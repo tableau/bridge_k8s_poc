@@ -8,10 +8,10 @@ AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text --pro
 AWS_ORGANIZATION_ID=$(aws organizations describe-organization --query Organization.Id --output text --profile saml)
 AWS_REGION=$(aws configure get region --profile saml)
 S3_BUCKET="tableau-$AWS_REGION-$AWS_ACCOUNT_ID"
-S3_KEY="repositories/$REPOSITORY_NAME.zip"
-STACK_NAME="$(echo "codepipeline-$REPOSITORY_NAME" | sed -r 's/_/-/g')"
+S3_KEY="repositories/cd/$REPOSITORY_NAME.zip"
+STACK_NAME="$(echo "cd-$REPOSITORY_NAME" | sed -r 's/_/-/g')"
 
-pushd "repositories/$REPOSITORY_NAME"
+pushd "repositories/cd/$REPOSITORY_NAME"
 git checkout -- buildspec.yaml
 sed -i.bak "s|\$CLUSTER_NAME|$CLUSTER_NAME|" buildspec.yaml
 rm buildspec.yaml.bak
